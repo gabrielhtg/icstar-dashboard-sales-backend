@@ -1,0 +1,14 @@
+SHOW DATABASES;
+
+CREATE DATABASE icstar_database;
+
+USE icstar_database;
+
+CREATE TABLE user (
+    email VARCHAR(100) NOT NULL PRIMARY KEY ,
+    password VARCHAR(100) NOT NULL
+);
+
+ALTER TABLE user ADD COLUMN first_name VARCHAR(100);
+ALTER TABLE user ADD COLUMN last_name VARCHAR(100);
+ALTER TABLE user ADD COLUMN first_name VARCHAR(100);

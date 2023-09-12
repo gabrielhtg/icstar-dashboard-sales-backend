@@ -22,4 +22,4 @@ Pertama-tama kita harus Setup dulu database kita.
 
 ## Setup Database
 
-Untuk setup database, cukup jalankan file `database.sql` yang ada di directory project.
+Untuk setup database, cukup jalankan file `database-creator.sql` yang ada di directory project.
