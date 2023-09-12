@@ -1,7 +1,5 @@
 # ICStar Dashboard Sales - Backend
 
-<hr>
-
 ## Setup Account Database
 
 Pertama-tama kita harus Setup dulu database kita.
