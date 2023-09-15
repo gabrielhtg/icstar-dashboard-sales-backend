@@ -6,4 +6,6 @@ SELECT * FROM user;
 
 DESC user;
 
+RENAME TABLE user TO users;
+
 
