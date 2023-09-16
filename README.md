@@ -1,5 +1,10 @@
 # ICStar Dashboard Sales - Backend
 
+Quick Navigation :
+- [Setup Account Database](#setup-account-database)
+- [Setup Database](#setup-database)
+- [User API Spec](#user-api-spec)
+
 ## Setup Account Database
 
 Pertama-tama kita harus Setup dulu database kita.
@@ -23,3 +28,31 @@ Pertama-tama kita harus Setup dulu database kita.
 ## Setup Database
 
 Untuk setup database, cukup jalankan file `database-creator.sql` yang ada di directory project.
+
+## User API Spec
+
+Berikut adalah user API Spec :
+- Register User <br>
+  ```
+  /api/register-user
+  ```
+  Ini digunakan untuk mendaftarkan user. Dibutuhkan request body seperti berikut ini :
+   
+  ```json
+  {
+    "email" : "usertest@example.com",
+    "password" : "testpw",
+    "firstName" : "User",
+    "lastName" : "Test",
+    "admin" : true
+  }
+  ```
+  
+
+- Remove User <br>
+  ```
+  /api/remove-user
+  ```
+  API ini digunakan untuk remove user dari database. Dibutuhkan request header dengan nama `email` sebagai parameter
+  pada API ini. Berikut contohnya `email : usertest@example.com`. Email yang dilampirkan disini adalah email user yang
+  akan dihapus datanya.
