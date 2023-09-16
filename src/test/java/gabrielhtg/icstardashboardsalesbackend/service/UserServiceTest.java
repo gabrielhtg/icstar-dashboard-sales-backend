@@ -72,7 +72,7 @@ public class UserServiceTest {
     void testRemoveUserBerhasil() {
         RegisterUserRequestModel requestModel = new RegisterUserRequestModel();
         requestModel.setEmail("gabrielhutagalung970@gmail.com");
-        requestModel.setPassword("test");
+        requestModel.setPassword("testpw");
         requestModel.setFirstName("Gabriel");
         requestModel.setLastName("Hutagalung");
         requestModel.setProfilePicture(null);
@@ -87,12 +87,12 @@ public class UserServiceTest {
 
     @Test
     void testRemoveUserGagal () {
+        String emailUserTest = "usertest@example.com";
         RegisterUserRequestModel requestModel = new RegisterUserRequestModel();
-        requestModel.setEmail("gabrielhutagalung970@gmail.com");
-        requestModel.setPassword("test");
-        requestModel.setFirstName("Gabriel");
-        requestModel.setLastName("Hutagalung");
-        requestModel.setProfilePicture(null);
+        requestModel.setEmail(emailUserTest);
+        requestModel.setPassword("testpw");
+        requestModel.setFirstName("User");
+        requestModel.setLastName("Test");
         requestModel.setAdmin(true);
 
         // mencoba untuk menghapus user yang tidak ada

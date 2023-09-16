@@ -4,6 +4,7 @@ Quick Navigation :
 - [Setup Account Database](#setup-account-database)
 - [Setup Database](#setup-database)
 - [User API Spec](#user-api-spec)
+- [Auth API Spec](#login-api-spec)
 
 ## Setup Account Database
 
@@ -56,3 +57,18 @@ Berikut adalah user API Spec :
   API ini digunakan untuk remove user dari database. Dibutuhkan request header dengan nama `email` sebagai parameter
   pada API ini. Berikut contohnya `email : usertest@example.com`. Email yang dilampirkan disini adalah email user yang
   akan dihapus datanya.
+
+## Login API Spec
+
+Berikut adalah Login API Spec :
+- Login
+  ```
+  /api/login
+  ```
+  Ini digunakan untuk login. Dibutuhkan request body seperti berikut ini :
+  ```json
+  {
+    "email" : "usertest@example.com",
+    "password" : "testpw"
+  }
+  ```
