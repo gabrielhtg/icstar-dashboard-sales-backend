@@ -33,7 +33,7 @@ Untuk setup database, cukup jalankan file `database-creator.sql` yang ada di dir
 ## User API Spec
 
 Berikut adalah user API Spec :
-- Register User <br>
+- <b>Register User</b> <br>
   ```
   /api/register-user
   ```
@@ -52,7 +52,7 @@ Berikut adalah user API Spec :
   `HTTP Response 400 (BAD REQUEST)`.
   
 
-- Remove User <br>
+- <b>Remove User</b> <br>
   ```
   /api/remove-user
   ```
@@ -65,7 +65,7 @@ Berikut adalah user API Spec :
 ## Login API Spec
 
 Berikut adalah Login API Spec :
-- Login
+- <b>Login</b>
   ```
   /api/login
   ```
