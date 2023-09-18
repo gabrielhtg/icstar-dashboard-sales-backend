@@ -48,19 +48,19 @@ Berikut adalah user API Spec :
     "admin" : true
   }
   ```
-  Jika berhasil maka akan return `HTTP Response 200`. Jika gagal akan return
-  `HTTP Response 400`.
+  Jika berhasil maka akan return `HTTP Response 200 (OK)`. Jika gagal akan return
+  `HTTP Response 400 (BAD REQUEST)`.
   
 
 - Remove User <br>
   ```
   /api/remove-user
   ```
-  &nbsp;&nbsp;&nbsp;&nbsp;API ini digunakan untuk remove user dari database. Dibutuhkan request header dengan nama `email` sebagai parameter
+  API ini digunakan untuk remove user dari database. Dibutuhkan request header dengan nama `email` sebagai parameter
   pada API ini. Berikut contohnya `email : usertest@example.com`. Email yang dilampirkan disini adalah email user yang
-  akan dihapus datanya. <br>
-  &nbsp;&nbsp;&nbsp;&nbsp;Jika user yang akan dihapus ditemukan, maka akan mengembalikan `HTTP Response 200`. Jika gagal maka akan mengembalikan
-  `HTTP Response 404`.
+  akan dihapus datanya. <br> <br>
+  Jika user yang akan dihapus ditemukan, maka akan mengembalikan `HTTP Response 200 (OK)`. Jika gagal maka akan mengembalikan
+  `HTTP Response 404 (NOT FOUND)`.
 
 ## Login API Spec
 
@@ -76,4 +76,5 @@ Berikut adalah Login API Spec :
     "password" : "testpw"
   }
   ```
-  Jika berhasil maka akan return `HTTP Reponse 200`, Jika gagal akan return `HTTP Response 401`.
+  Jika berhasil maka akan return `HTTP Reponse 200 (OK)`. Jika user tidak ditemukan akan return `HTTP Response 400 (NOT FOUND)`.
+  Jika user ditemukan tapi kredensiialnya salah maka akan return `HTTP Response 401 (UNAUTHORIZED)`

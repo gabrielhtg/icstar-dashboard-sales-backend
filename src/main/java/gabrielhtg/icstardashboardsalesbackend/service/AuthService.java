@@ -10,8 +10,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
-    @Autowired
+    final
     UserRepository userRepository;
+
+    public AuthService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Transactional
     public int login (LoginRequestModel requestModel) {

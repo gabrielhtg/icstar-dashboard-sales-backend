@@ -12,8 +12,12 @@ import java.util.UUID;
 
 @Service
 public class UserService {
-    @Autowired
+    final
     UserRepository userRepository;
+
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Transactional
     public boolean registerUser (RegisterUserRequestModel requestModels) {

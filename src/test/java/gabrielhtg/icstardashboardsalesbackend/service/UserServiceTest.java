@@ -87,7 +87,7 @@ public class UserServiceTest {
 
     @Test
     void testRemoveUserGagal () {
-        String emailUserTest = "usertest@example.com";
+        String emailUserTest = "gas@example.com";
         RegisterUserRequestModel requestModel = new RegisterUserRequestModel();
         requestModel.setEmail(emailUserTest);
         requestModel.setPassword("testpw");

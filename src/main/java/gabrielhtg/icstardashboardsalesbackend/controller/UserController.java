@@ -1,7 +1,6 @@
 package gabrielhtg.icstardashboardsalesbackend.controller;
 
 import gabrielhtg.icstardashboardsalesbackend.model.RegisterUserRequestModel;
-import gabrielhtg.icstardashboardsalesbackend.model.WebResponse;
 import gabrielhtg.icstardashboardsalesbackend.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
