@@ -66,12 +66,8 @@ public class UserControllerTest {
         ).andExpectAll(
                 status().isOk()
         ).andDo(result -> {
-            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<WebResponse<String>>() {
-            });
-
-            Assertions.assertNotNull(response);
-            Assertions.assertFalse(response.isError());
-            Assertions.assertEquals("ok", response.getData());
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals("Register Success", result.getResponse().getContentAsString());
         });
     }
 
@@ -93,15 +89,10 @@ public class UserControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestModel))
         ).andExpectAll(
-                status().isOk()
+                status().is(400)
         ).andDo(result -> {
-            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<WebResponse<String>>() {
-            });
-
-            Assertions.assertNotNull(response);
-            Assertions.assertTrue(response.isError());
-            Assertions.assertEquals("RegisterUser Failed", response.getErrorMsg());
-            Assertions.assertNull(response.getData());
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals("Register Failed! User Exist", result.getResponse().getContentAsString());
         });
     }
 
@@ -123,19 +114,8 @@ public class UserControllerTest {
         ).andExpectAll(
                 status().isOk()
         ).andDo(result -> {
-            WebResponse<String> webResponse = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<WebResponse<String>>() {
-            });
-
-            // memastikan response dari server tidak null
-            Assertions.assertNotNull(webResponse);
-
-            // memastikan bahwa respon server tidak error
-            Assertions.assertFalse(webResponse.isError());
-
-            // memastikan error message not null
-            Assertions.assertNull(webResponse.getErrorMsg());
-
-            Assertions.assertEquals("ok", webResponse.getData());
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals("Remove User Success", result.getResponse().getContentAsString());
         });
     }
 
@@ -147,19 +127,11 @@ public class UserControllerTest {
                 delete("/api/remove-user")
                         .header("email", emailUserTest)
         ).andExpectAll(
-                status().isOk()
+                status().is(404)
         ).andDo(result -> {
-            WebResponse<String> webResponse = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<WebResponse<String>>() {
-            });
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals("Remove User Failed! User not found", result.getResponse().getContentAsString());
 
-            // memastikan response dari server tidak null
-            Assertions.assertNotNull(webResponse);
-
-            Assertions.assertTrue(webResponse.isError());
-
-            Assertions.assertNotNull(webResponse.getErrorMsg());
-
-            Assertions.assertEquals("RemoveUser Failed", webResponse.getErrorMsg());
         });
     }
 }

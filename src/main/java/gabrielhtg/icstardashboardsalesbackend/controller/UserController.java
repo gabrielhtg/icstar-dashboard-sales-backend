@@ -2,44 +2,42 @@ package gabrielhtg.icstardashboardsalesbackend.controller;
 
 import gabrielhtg.icstardashboardsalesbackend.model.RegisterUserRequestModel;
 import gabrielhtg.icstardashboardsalesbackend.model.WebResponse;
-import gabrielhtg.icstardashboardsalesbackend.repository.UserRepository;
 import gabrielhtg.icstardashboardsalesbackend.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.nio.file.Path;
 
 @RestController
 public class UserController {
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private UserRepository userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @PostMapping (
             path = "/api/register-user",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    private WebResponse<String> registerUser (@RequestBody RegisterUserRequestModel requestModel) {
+    private ResponseEntity<String> registerUser (@RequestBody RegisterUserRequestModel requestModel) {
         if (userService.registerUser(requestModel)) {
-            return WebResponse.<String>builder().data("ok").error(false).build();
+            return ResponseEntity.ok("Register Success");
         }
 
-        return WebResponse.<String>builder().errorMsg("RegisterUser Failed").error(true).build();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Register Failed! User Exist");
     }
 
     @DeleteMapping (
             path = "/api/remove-user"
     )
-    private WebResponse<String> removeUser (@RequestHeader(name = "email") String emailToRemove) {
+    private ResponseEntity<String> removeUser (@RequestHeader(name = "email") String emailToRemove) {
         if (userService.removeUser(emailToRemove)) {
-            return WebResponse.<String>builder().data("ok").error(false).build();
+            return ResponseEntity.ok("Remove User Success");
         }
 
-        return WebResponse.<String>builder().error(true).errorMsg("RemoveUser Failed").build();
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Remove User Failed! User not found");
     }
 
 }

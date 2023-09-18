@@ -60,20 +60,8 @@ public class AuthControllerTest {
         ).andExpectAll(
                 status().isOk()
         ).andDo(result -> {
-            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<WebResponse<String>>() {
-            });
-
-            // memastikan user sebelumnya sudah terdaftar atau belum
-            Assertions.assertTrue(userRepository.existsById(requestModel.getEmail()));
-
-            // memastikan response tidak null
-            Assertions.assertNotNull(response);
-
-            Assertions.assertFalse(response.isError());
-
-            Assertions.assertEquals("ok", response.getData());
-
-            Assertions.assertNull(response.getErrorMsg());
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals("Login Success", result.getResponse().getContentAsString());
         });
     }
 
@@ -99,22 +87,11 @@ public class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestModel))
         ).andExpectAll(
-                status().isOk()
+                status().is(401)
         ).andDo(result -> {
-            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<WebResponse<String>>() {
-            });
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals("Wrong Credentials", result.getResponse().getContentAsString());
 
-            // memastikan user sebelumnya sudah terdaftar atau belum
-            Assertions.assertTrue(userRepository.existsById(requestModel.getEmail()));
-
-            // memastikan response tidak null
-            Assertions.assertNotNull(response);
-
-            Assertions.assertTrue(response.isError());
-
-            Assertions.assertEquals("Login Failed", response.getErrorMsg());
-
-            Assertions.assertNull(response.getData());
         });
     }
 
@@ -130,19 +107,10 @@ public class AuthControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(requestModel))
         ).andExpectAll(
-                status().isOk()
+                status().is(400)
         ).andDo(result -> {
-            WebResponse<String> response = objectMapper.readValue(result.getResponse().getContentAsString(), new TypeReference<WebResponse<String>>() {
-            });
-
-            // memastikan response tidak null
-            Assertions.assertNotNull(response);
-
-            Assertions.assertTrue(response.isError());
-
-            Assertions.assertEquals("Login Failed", response.getErrorMsg());
-
-            Assertions.assertNull(response.getData());
+            Assertions.assertNotNull(result);
+            Assertions.assertEquals("User Not Found", result.getResponse().getContentAsString());
         });
     }
 }

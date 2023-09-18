@@ -41,11 +41,30 @@ public class AuthServiceTest {
         loginRequestModel.setEmail(registerUserRequestModel.getEmail());
         loginRequestModel.setPassword("testpw");
 
-        Assertions.assertTrue(authService.login(loginRequestModel));
+        Assertions.assertEquals(1, authService.login(loginRequestModel));
     }
 
     @Test
-    void testLoginFailed() {
+    void testLoginFailedWrongCredentials() {
+        String emailUserTest = "usertest@example.com";
+        RegisterUserRequestModel registerUserRequestModel = new RegisterUserRequestModel();
+        registerUserRequestModel.setEmail(emailUserTest);
+        registerUserRequestModel.setPassword("testpw");
+        registerUserRequestModel.setFirstName("User");
+        registerUserRequestModel.setLastName("Test");
+        registerUserRequestModel.setAdmin(true);
+
+        userService.registerUser(registerUserRequestModel);
+
+        LoginRequestModel loginRequestModel = new LoginRequestModel();
+        loginRequestModel.setEmail(registerUserRequestModel.getEmail());
+        loginRequestModel.setPassword("testpwsalah");
+
+        Assertions.assertEquals(2, authService.login(loginRequestModel));
+    }
+
+    @Test
+    void testLoginFailedUserNotFound() {
         String emailUserTest = "usertest@example.com";
         RegisterUserRequestModel registerUserRequestModel = new RegisterUserRequestModel();
         registerUserRequestModel.setEmail(emailUserTest);
@@ -58,6 +77,6 @@ public class AuthServiceTest {
         loginRequestModel.setEmail(registerUserRequestModel.getEmail());
         loginRequestModel.setPassword(registerUserRequestModel.getPassword());
 
-        Assertions.assertFalse(authService.login(loginRequestModel));
+        Assertions.assertEquals(3, authService.login(loginRequestModel));
     }
 }
