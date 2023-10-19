@@ -1,16 +1,13 @@
 package gabrielhtg.icstardashboardsalesbackend.service;
 
 import gabrielhtg.icstardashboardsalesbackend.entity.User;
+import gabrielhtg.icstardashboardsalesbackend.model.LoginRequestModel;
 import gabrielhtg.icstardashboardsalesbackend.model.RegisterUserRequestModel;
 import gabrielhtg.icstardashboardsalesbackend.repository.UserRepository;
-import jakarta.persistence.OrderBy;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.Optional;
 
 @SpringBootTest
 public class UserServiceTest {
@@ -19,6 +16,9 @@ public class UserServiceTest {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    AuthService authService;
 
     @Test
     void testRegisterUserBerhasil() {
@@ -32,10 +32,19 @@ public class UserServiceTest {
 
         Assertions.assertTrue(userService.registerUser(requestModel));
 
-        // remove user
         User user = userRepository.findById(requestModel.getEmail()).orElse(null);
 
         Assertions.assertNotNull(user);
+        Assertions.assertEquals(requestModel.getEmail(), user.getEmail());
+        Assertions.assertEquals(requestModel.getFirstName(), user.getFirstName());
+        Assertions.assertEquals(requestModel.getLastName(), user.getLastName());
+        Assertions.assertEquals(requestModel.getAdmin(), user.getAdmin());
+        Assertions.assertEquals(requestModel.getProfilePicture(), user.getProfilePicture());
+        Assertions.assertTrue(userService.cekPassword(user, requestModel.getPassword()));
+        Assertions.assertNull(user.getSessionToken());
+        Assertions.assertNull(user.getSessionTokenActiveUntil());
+
+        // remove user
         userRepository.delete(user);
 
         // cek apakah user sudah berhasil diremove atau tidak
@@ -98,4 +107,37 @@ public class UserServiceTest {
         // mencoba untuk menghapus user yang tidak ada
         Assertions.assertFalse(userService.removeUser(requestModel.getEmail()));
     }
+
+    @Test
+    void getUserSessionTokenSuccess() {
+        LoginRequestModel requestModel = new LoginRequestModel();
+        requestModel.setEmail("usertest@example.com");
+        requestModel.setPassword("passwordtest");
+
+        authService.login(requestModel);
+
+        String temp = userService.getUserSessionToken(requestModel.getEmail());
+
+        Assertions.assertNotNull(temp);
+    }
+
+    @Test
+    void getUserSessionTokenFailedUserNotFound() {
+        String email = "usertestsalah@example.com";
+
+        String temp = userService.getUserSessionToken(email);
+
+        Assertions.assertNull(temp);
+    }
+
+//    @Test
+//    void getUserSessionTokenFailedUserNotLogin() {
+//         = "usertestsalah@example.com";
+//
+//        authService.logout(email);
+//
+//        String temp = userService.getUserSessionToken(email);
+//
+//        Assertions.assertNull(temp);
+//    }
 }

@@ -1,10 +1,8 @@
 package gabrielhtg.icstardashboardsalesbackend.controller;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gabrielhtg.icstardashboardsalesbackend.model.LoginRequestModel;
 import gabrielhtg.icstardashboardsalesbackend.model.RegisterUserRequestModel;
-import gabrielhtg.icstardashboardsalesbackend.model.WebResponse;
 import gabrielhtg.icstardashboardsalesbackend.repository.UserRepository;
 import gabrielhtg.icstardashboardsalesbackend.service.UserService;
 import org.junit.jupiter.api.Assertions;
@@ -14,12 +12,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.util.Assert;
 
-import static org.springframework.test.web.servlet.MockMvcBuilder.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc

@@ -1,5 +1,6 @@
 package gabrielhtg.icstardashboardsalesbackend.service;
 
+import gabrielhtg.icstardashboardsalesbackend.entity.User;
 import gabrielhtg.icstardashboardsalesbackend.model.LoginRequestModel;
 import gabrielhtg.icstardashboardsalesbackend.model.RegisterUserRequestModel;
 import gabrielhtg.icstardashboardsalesbackend.repository.UserRepository;
@@ -30,7 +31,7 @@ public class AuthServiceTest {
         String emailUserTest = "usertest@example.com";
         RegisterUserRequestModel registerUserRequestModel = new RegisterUserRequestModel();
         registerUserRequestModel.setEmail(emailUserTest);
-        registerUserRequestModel.setPassword("testpw");
+        registerUserRequestModel.setPassword("passwordtest");
         registerUserRequestModel.setFirstName("User");
         registerUserRequestModel.setLastName("Test");
         registerUserRequestModel.setAdmin(true);
@@ -39,9 +40,14 @@ public class AuthServiceTest {
 
         LoginRequestModel loginRequestModel = new LoginRequestModel();
         loginRequestModel.setEmail(registerUserRequestModel.getEmail());
-        loginRequestModel.setPassword("testpw");
+        loginRequestModel.setPassword("passwordtest");
 
         Assertions.assertEquals(1, authService.login(loginRequestModel));
+
+        User user = userRepository.findById(registerUserRequestModel.getEmail()).orElse(null);
+        Assertions.assertNotNull(user);
+        Assertions.assertNotNull(user.getSessionTokenActiveUntil());
+        Assertions.assertNotNull(user.getSessionToken());
     }
 
     @Test
@@ -61,6 +67,11 @@ public class AuthServiceTest {
         loginRequestModel.setPassword("testpwsalah");
 
         Assertions.assertEquals(2, authService.login(loginRequestModel));
+
+        User user = userRepository.findById(registerUserRequestModel.getEmail()).orElse(null);
+        Assertions.assertNotNull(user);
+        Assertions.assertNull(user.getSessionTokenActiveUntil());
+        Assertions.assertNull(user.getSessionToken());
     }
 
     @Test

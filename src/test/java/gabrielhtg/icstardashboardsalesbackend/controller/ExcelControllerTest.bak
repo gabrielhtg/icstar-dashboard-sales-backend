@@ -1,0 +1,93 @@
+package gabrielhtg.icstardashboardsalesbackend.controller;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import gabrielhtg.icstardashboardsalesbackend.entity.User;
+import gabrielhtg.icstardashboardsalesbackend.model.LoginRequestModel;
+import gabrielhtg.icstardashboardsalesbackend.repository.ExcelFileRepository;
+import gabrielhtg.icstardashboardsalesbackend.service.AuthService;
+import gabrielhtg.icstardashboardsalesbackend.service.ExcelService;
+import gabrielhtg.icstardashboardsalesbackend.service.UserService;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
+import static org.springframework.test.web.servlet.MockMvcBuilder.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class ExcelControllerTest {
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ExcelService excelService;
+
+    @Autowired
+    private AuthService authService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Autowired
+    private ExcelFileRepository excelFileRepository;
+
+    @Test
+    void testGetAllSalesDataAPISuccess() throws Exception {
+        excelFileRepository.deleteAll();
+
+        File file = new File("Sales - 20221018-Pipeline List-212427.xlsx");
+        FileInputStream fileInputStream = new FileInputStream(file);
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+
+        while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+            byteArrayOutputStream.write(buffer, 0, bytesRead);
+        }
+
+        fileInputStream.close();
+        byteArrayOutputStream.close();
+
+        byte[] fileExcel = byteArrayOutputStream.toByteArray();
+
+        MockMultipartFile multipartFile = new MockMultipartFile("tempFileName", fileExcel);
+
+        User user = new User();
+        user.setEmail("usertest@example.com");
+        user.setPassword("testpassword");
+
+        Assertions.assertTrue(excelService.uploadExcel(multipartFile, "usertest@example.com", user));
+
+        LoginRequestModel requestModel= new LoginRequestModel();
+        requestModel.setEmail("usertest@example.com");
+        requestModel.setPassword("passwordtest");
+
+        authService.login(requestModel);
+
+        mockMvc.perform(
+            get("/api/get-all-sales-data")
+                    .header("email", "usertest@example.com")
+        ).andExpectAll(
+                status().isOk()
+        );
+    }
+
+
+}
