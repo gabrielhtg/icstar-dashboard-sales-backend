@@ -9,18 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class LoginResponseModell {
-
-    private int loginStatus;
-
-    private String email;
-
-//    private String loginToken;
-
-    private String firstName;
+public class LoginResponseModel {
 
     private byte[] profilePicture;
-
-    private Boolean admin;
 
 }

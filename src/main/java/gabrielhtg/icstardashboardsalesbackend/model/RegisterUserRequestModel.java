@@ -1,5 +1,6 @@
 package gabrielhtg.icstardashboardsalesbackend.model;
 
+import jakarta.persistence.Column;
 import lombok.*;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -20,4 +21,8 @@ public class RegisterUserRequestModel {
     private byte[] profilePicture;
 
     private Boolean admin;
+
+    private String sessionToken;
+
+    private Long sessionTokenActiveUntil;
 }

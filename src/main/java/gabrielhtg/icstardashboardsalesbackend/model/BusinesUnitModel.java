@@ -9,19 +9,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
-@Table(name = "business_unit")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class BusinesUnitModel {
-    @Id
     private String id;
 
-    @Column(name = "total_revenue")
     private long totalRevenue;
 
-    @Column(name = "total_gross_profit")
     private long totalGrossProfit;
 }

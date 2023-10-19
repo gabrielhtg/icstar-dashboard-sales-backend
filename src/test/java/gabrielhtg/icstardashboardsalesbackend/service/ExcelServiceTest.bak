@@ -1,0 +1,92 @@
+package gabrielhtg.icstardashboardsalesbackend.service;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import gabrielhtg.icstardashboardsalesbackend.entity.ExcelFile;
+import gabrielhtg.icstardashboardsalesbackend.repository.ExcelFileRepository;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockMultipartFile;
+
+import java.io.*;
+import java.util.List;
+
+@SpringBootTest
+public class ExcelServiceTest {
+    @Autowired
+    ExcelService excelService;
+
+    @Autowired
+    ExcelFileRepository excelFileRepository;
+
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @Test
+    void testCetakExcelServiceSuccess() throws IOException {
+        excelFileRepository.deleteAll();
+
+        File file = new File("Sales - 20221018-Pipeline List-212427.xlsx");
+        FileInputStream fileInputStream = new FileInputStream(file);
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+
+        while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+            byteArrayOutputStream.write(buffer, 0, bytesRead);
+        }
+
+        fileInputStream.close();
+        byteArrayOutputStream.close();
+
+        byte[] fileExcel = byteArrayOutputStream.toByteArray();
+
+        MockMultipartFile multipartFile = new MockMultipartFile("tempFileName", fileExcel);
+
+//        Assertions.assertTrue(excelService.uploadExcel(multipartFile, "usertest@example.com"));
+    }
+
+    @Test
+    void testCetakExcelServiceFailed() throws IOException {
+        excelFileRepository.deleteAll();
+
+        File file = new File("test.xlsx");
+
+        FileInputStream fileInputStream = new FileInputStream(file);
+
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+
+        byte[] buffer = new byte[1024];
+        int bytesRead;
+
+        while ((bytesRead = fileInputStream.read(buffer)) != -1) {
+            byteArrayOutputStream.write(buffer, 0, bytesRead);
+        }
+
+        fileInputStream.close();
+        byteArrayOutputStream.close();
+
+        byte[] fileExcel = byteArrayOutputStream.toByteArray();
+
+        MockMultipartFile multipartFile = new MockMultipartFile("tempFileName", fileExcel);
+        Assertions.assertNotNull(multipartFile);
+
+//        Assertions.assertFalse(excelService.uploadExcel(multipartFile, "usertest@example.com"));
+    }
+
+    @Test
+    void deleteAllDataSuccess() {
+        excelFileRepository.deleteAll();
+    }
+
+//    @Test
+//    void getAllDataSuccess () {
+//        List<ExcelFile> excelFileList = excelService.gelAllData();
+//
+//        Assertions.assertNotNull(excelFileList);
+//    }
+
+}

@@ -9,6 +9,12 @@ CREATE TABLE user (
     password VARCHAR(100) NOT NULL
 );
 
+CREATE TABLE business_unit (
+    id varchar(100) not null primary key ,
+    total_revenue bigint,
+    total_gross_profit bigint
+);
+
 ALTER TABLE user ADD COLUMN first_name VARCHAR(100);
 ALTER TABLE user ADD COLUMN last_name VARCHAR(100);
 ALTER TABLE user ADD COLUMN first_name VARCHAR(100);

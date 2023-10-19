@@ -13,4 +13,6 @@ public class LoginRequestModel {
     private String email;
 
     private String password;
+
+    private boolean rememberMe;
 }

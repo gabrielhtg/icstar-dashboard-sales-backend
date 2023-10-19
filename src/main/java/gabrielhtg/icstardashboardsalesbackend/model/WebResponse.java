@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 public class WebResponse<T> {
+    private boolean success;
+
+    private String message;
+
     private T data;
-
-    private boolean error;
-
-    private String errorMsg;
 }
